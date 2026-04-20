@@ -37,17 +37,22 @@ Server will run on:
 
 ---
 
+Folder Structure
+
 central-api/
-      data/
-         store.js         - in-memory data storage
-      routes/
-         persons.js       - shared across all systems
-         patients.js      - patient information system
-         burials.js       - funeral system
-         appointments.js  - dentist appointment system
-         dentists.js      - dentist management
-      package.json
-      server.js           - entry point
+   
+   data/
+      store.js          - in-memory data storage
+
+   routes/
+      persons.js        - shared across all systems
+      patients.js       - patient information system
+      burials.js        - funeral system
+      appointments.js   - dentist appointment system
+      dentists.js       - dentist management
+
+   package.json
+   server.js            - entry point
 ---
 
 ## API Endpoints
