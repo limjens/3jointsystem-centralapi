@@ -1,4 +1,5 @@
 const store = {
+  users: [],
   persons: [],
   patients: [],
   burials: [],

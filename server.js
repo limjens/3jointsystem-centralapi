@@ -3,6 +3,7 @@ const app = express();
 
 app.use(express.json());
 
+app.use("/api/users", require("./routes/users"));
 app.use("/api/persons", require("./routes/persons"));
 app.use("/api/patients", require("./routes/patients"));
 app.use("/api/appointment", require("./routes/appointment"));
