@@ -9,6 +9,15 @@ app.use("/api/appointment", require("./routes/appointment"));
 app.use("/api/burials", require("./routes/burials"));
 app.use("/api/dentists", require("./routes/dentists"));
 
+const store = require("./data/store");
+store.users.push({
+  id: 1,
+  username: "admin",
+  password: "admin123",
+  role: "admin",
+});
+console.log("Default admin created → username: admin, password: admin123");
+
 app.listen(3000, () => {
-  console.log("Server is running baby.");
+  console.log("Server is running on http://localhost:3000.");
 });
