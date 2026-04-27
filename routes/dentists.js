@@ -1,17 +1,18 @@
 const router = require("express").Router();
 const store = require("../data/store");
+const { auth, adminOnly } = require("../middleware/auth");
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   res.json(store.dentists);
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", auth, (req, res) => {
   const dentist = store.dentists.find((d) => d.id == req.params.id);
   if (!dentist) return res.status(404).json({ message: "Dentist not found" });
   res.json(dentist);
 });
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   const dentist = {
     id: Date.now(),
     ...req.body,
@@ -20,7 +21,7 @@ router.post("/", (req, res) => {
   res.status(201).json(dentist);
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", auth, (req, res) => {
   const index = store.dentists.findIndex((d) => d.id == req.params.id);
   if (index === -1)
     return res.status(404).json({ message: "Dentist not found" });
@@ -28,7 +29,7 @@ router.put("/:id", (req, res) => {
   res.json(store.dentists[index]);
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth, adminOnly, (req, res) => {
   const index = store.dentists.findIndex((d) => d.id == req.params.id);
   if (index === -1)
     return res.status(404).json({ message: "Dentist not found" });

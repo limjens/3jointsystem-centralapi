@@ -1,18 +1,19 @@
 const router = require("express").Router();
 const store = require("../data/store");
+const { auth, adminOnly } = require("../middleware/auth");
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   res.json(store.burials);
 });
 
-router.get("/:person_id", (req, res) => {
+router.get("/:person_id", auth, (req, res) => {
   const burial = store.burials.find((b) => b.person_id == req.params.person_id);
   if (!burial)
     return res.status(404).json({ message: "Burial record not found" });
   res.json(burial);
 });
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   const person = store.persons.find((p) => p.id == req.body.person_id);
   if (!person)
     return res
@@ -33,7 +34,7 @@ router.post("/", (req, res) => {
   res.status(201).json(burial);
 });
 
-router.put("/:person_id", (req, res) => {
+router.put("/:person_id", auth, (req, res) => {
   const index = store.burials.findIndex(
     (b) => b.person_id == req.params.person_id,
   );
@@ -44,7 +45,7 @@ router.put("/:person_id", (req, res) => {
 });
 
 // DELETE a burial record
-router.delete("/:person_id", (req, res) => {
+router.delete("/:person_id", auth, adminOnly, (req, res) => {
   const index = store.burials.findIndex(
     (b) => b.person_id == req.params.person_id,
   );

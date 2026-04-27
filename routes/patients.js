@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const store = require("../data/store");
+const { auth, adminOnly } = require("../middleware/auth");
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   res.json(store.patients);
 });
 
-router.get("/:person_id", (req, res) => {
+router.get("/:person_id", auth, (req, res) => {
   const patient = store.patients.find(
     (p) => p.person_id == req.params.person_id,
   );
@@ -13,7 +14,7 @@ router.get("/:person_id", (req, res) => {
   res.json(patient);
 });
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   const person = store.persons.find((p) => p.id == req.body.person_id);
   if (!person)
     return res
@@ -34,7 +35,7 @@ router.post("/", (req, res) => {
   res.status(201).json(patient);
 });
 
-router.put("/:person_id", (req, res) => {
+router.put("/:person_id", auth, (req, res) => {
   const index = store.patients.findIndex(
     (p) => p.person_id == req.params.person_id,
   );
@@ -44,7 +45,7 @@ router.put("/:person_id", (req, res) => {
   res.json(store.patients[index]);
 });
 
-router.delete("/:person_id", (req, res) => {
+router.delete("/:person_id", auth, adminOnly, (req, res) => {
   const index = store.patients.findIndex(
     (p) => p.person_id == req.params.person_id,
   );

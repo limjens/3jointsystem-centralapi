@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const store = require("../data/store");
+const { auth, adminOnly } = require("../middleware/auth");
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   res.json(store.appointments);
 });
 
-router.get("/:person_id", (req, res) => {
+router.get("/:person_id", auth, (req, res) => {
   const appointments = store.appointments.filter(
     (a) => a.person_id == req.params.person_id,
   );
@@ -16,7 +17,7 @@ router.get("/:person_id", (req, res) => {
   res.json(appointments);
 });
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   const person = store.persons.find((p) => p.id == req.body.person_id);
   if (!person)
     return res
@@ -38,7 +39,7 @@ router.post("/", (req, res) => {
   res.status(201).json(appointment);
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", auth, (req, res) => {
   const index = store.appointments.findIndex((a) => a.id == req.params.id);
   if (index === -1)
     return res.status(404).json({ message: "Appointment not found" });
@@ -46,7 +47,7 @@ router.put("/:id", (req, res) => {
   res.json(store.appointments[index]);
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth, adminOnly, (req, res) => {
   const index = store.appointments.findIndex((a) => a.id == req.params.id);
   if (index === -1)
     return res.status(404).json({ message: "Appointment not found" });
