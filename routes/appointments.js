@@ -55,4 +55,12 @@ router.delete("/:id", auth, adminOnly, (req, res) => {
   res.json({ message: "Appointment deleted" });
 });
 
+// GET single appointment by appointment id
+router.get("/single/:id", auth, (req, res) => {
+  const appointment = store.appointments.find((a) => a.id == req.params.id);
+  if (!appointment)
+    return res.status(404).json({ message: "Appointment not found" });
+  res.json(appointment);
+});
+
 module.exports = router;

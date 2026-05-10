@@ -8,7 +8,7 @@ app.use(express.json());
 app.use("/api/users", require("./routes/users"));
 app.use("/api/persons", require("./routes/persons"));
 app.use("/api/patients", require("./routes/patients"));
-app.use("/api/appointment", require("./routes/appointment"));
+app.use("/api/appointments", require("./routes/appointments")); // ← fixed
 app.use("/api/burials", require("./routes/burials"));
 app.use("/api/dentists", require("./routes/dentists"));
 
